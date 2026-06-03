@@ -19,12 +19,14 @@ class DoctorBinding extends Bindings {
     Get.lazyPut(() => GetDoctorAppointmentsUseCase(Get.find<DoctorRepository>()));
     Get.lazyPut(() => UpdateAppointmentStatusUseCase(Get.find<DoctorRepository>()));
     Get.lazyPut(() => AddMedicalRecordUseCase(Get.find<DoctorRepository>()));
+    Get.lazyPut(() => RescheduleAppointmentUseCase(Get.find<DoctorRepository>()));
 
     Get.lazyPut(
       () => DoctorController(
         getProfileUseCase: Get.find<GetDoctorProfileUseCase>(),
         getAppointmentsUseCase: Get.find<GetDoctorAppointmentsUseCase>(),
         updateStatusUseCase: Get.find<UpdateAppointmentStatusUseCase>(),
+        rescheduleUseCase: Get.find<RescheduleAppointmentUseCase>(),
       ),
     );
   }

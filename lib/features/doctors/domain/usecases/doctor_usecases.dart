@@ -25,3 +25,10 @@ class AddMedicalRecordUseCase {
   Future<void> execute(String patientId, String doctorId, String notes) =>
       repository.addMedicalRecord(patientId, doctorId, notes);
 }
+
+class RescheduleAppointmentUseCase {
+  final DoctorRepository repository;
+  RescheduleAppointmentUseCase(this.repository);
+  Future<void> execute(String appointmentId, DateTime newTime) =>
+      repository.rescheduleAppointment(appointmentId, newTime);
+}

@@ -125,17 +125,26 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
           child: ListTile(
             title: Text(appointment.patientName),
             subtitle: Text(appointment.appointmentTime.toString().split('.')[0]),
-            trailing: PopupMenuButton<String>(
-              onSelected: (status) => controller.updateStatus(appointment.id, status),
-              itemBuilder: (context) => [
-                const PopupMenuItem(value: 'confirmed', child: Text('Confirm')),
-                const PopupMenuItem(value: 'completed', child: Text('Complete')),
-                const PopupMenuItem(value: 'cancelled', child: Text('Cancel')),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.calendar_today, size: 20),
+                  onPressed: () => _showReschedulePicker(context, appointment.id),
+                ),
+                PopupMenuButton<String>(
+                  onSelected: (status) => controller.updateStatus(appointment.id, status),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(value: 'confirmed', child: Text('Confirm')),
+                    const PopupMenuItem(value: 'completed', child: Text('Complete')),
+                    const PopupMenuItem(value: 'cancelled', child: Text('Cancel')),
+                  ],
+                  child: Chip(
+                    label: Text(appointment.status),
+                    backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
+                  ),
+                ),
               ],
-              child: Chip(
-                label: Text(appointment.status),
-                backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
-              ),
             ),
             onTap: () {
               // Navigate to patient detail/medical records
@@ -144,6 +153,25 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
         );
       },
     );
+  }
+
+  void _showReschedulePicker(BuildContext context, String appointmentId) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 30)),
+    );
+    if (picked != null) {
+      final TimeOfDay? time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+      if (time != null) {
+        final newTime = DateTime(picked.year, picked.month, picked.day, time.hour, time.minute);
+        controller.reschedule(appointmentId, newTime);
+      }
+    }
   }
 
   Color _getStatusColor(String status) {

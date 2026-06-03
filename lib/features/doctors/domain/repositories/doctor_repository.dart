@@ -5,5 +5,6 @@ abstract class DoctorRepository {
   Future<List<DoctorAppointmentEntity>> getAppointments(String doctorId);
   Future<void> updateAppointmentStatus(String appointmentId, String status);
   Future<void> addMedicalRecord(String patientId, String doctorId, String notes);
+  Future<void> rescheduleAppointment(String appointmentId, DateTime newTime);
   Future<List<PatientRecordEntity>> getPatientHistory(String patientId);
 }

@@ -6,6 +6,7 @@ abstract class DoctorRemoteDataSource {
   Future<List<DoctorAppointmentModel>> getAppointments(String doctorId);
   Future<void> updateAppointmentStatus(String appointmentId, String status);
   Future<void> addMedicalRecord(String patientId, String doctorId, String notes);
+  Future<void> rescheduleAppointment(String appointmentId, DateTime newTime);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -45,5 +46,13 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       'doctor_id': doctorId,
       'notes': notes,
     });
+  }
+
+  @override
+  Future<void> rescheduleAppointment(String appointmentId, DateTime newTime) async {
+    await supabase.from('appointments').update({
+      'appointment_start_time': newTime.toIso8601String(),
+      'appointment_end_time': newTime.add(const Duration(minutes: 30)).toIso8601String(),
+    }).eq('id', appointmentId);
   }
 }

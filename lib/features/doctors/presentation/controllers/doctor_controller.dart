@@ -7,11 +7,13 @@ class DoctorController extends GetxController {
   final GetDoctorProfileUseCase getProfileUseCase;
   final GetDoctorAppointmentsUseCase getAppointmentsUseCase;
   final UpdateAppointmentStatusUseCase updateStatusUseCase;
+  final RescheduleAppointmentUseCase rescheduleUseCase;
 
   DoctorController({
     required this.getProfileUseCase,
     required this.getAppointmentsUseCase,
     required this.updateStatusUseCase,
+    required this.rescheduleUseCase,
   });
 
   final _isLoading = false.obs;
@@ -51,6 +53,19 @@ class DoctorController extends GetxController {
       Get.snackbar('Success', 'Appointment status updated to $status');
     } catch (e) {
       Get.snackbar('Error', 'Failed to update status: ${e.toString()}');
+    }
+  }
+
+  Future<void> reschedule(String appointmentId, DateTime newTime) async {
+    try {
+      _isLoading.value = true;
+      await rescheduleUseCase.execute(appointmentId, newTime);
+      await fetchData();
+      Get.snackbar('Success', 'Appointment rescheduled');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to reschedule: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
     }
   }
 }

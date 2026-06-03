@@ -22,6 +22,10 @@ class DoctorRepositoryImpl implements DoctorRepository {
       remoteDataSource.addMedicalRecord(patientId, doctorId, notes);
 
   @override
+  Future<void> rescheduleAppointment(String appointmentId, DateTime newTime) =>
+      remoteDataSource.rescheduleAppointment(appointmentId, newTime);
+
+  @override
   Future<List<PatientRecordEntity>> getPatientHistory(String patientId) async {
     // Implementation for fetching history
     return [];
