@@ -6,11 +6,13 @@ class AdminController extends GetxController {
   final GetAdminStatsUseCase getStatsUseCase;
   final GetAllUsersUseCase getUsersUseCase;
   final GetHospitalsUseCase getHospitalsUseCase;
+  final UpdateUserStatusUseCase updateUserStatusUseCase;
 
   AdminController({
     required this.getStatsUseCase,
     required this.getUsersUseCase,
     required this.getHospitalsUseCase,
+    required this.updateUserStatusUseCase,
   });
 
   final _isLoading = false.obs;
@@ -41,6 +43,27 @@ class AdminController extends GetxController {
       Get.snackbar('Error', 'Failed to fetch admin data: ${e.toString()}');
     } finally {
       _isLoading.value = false;
+    }
+  }
+
+  Future<void> updateUserStatus(String userId, bool isActive) async {
+    try {
+      await updateUserStatusUseCase.execute(userId, isActive);
+      // Update local state
+      final index = _users.indexWhere((u) => u.id == userId);
+      if (index != -1) {
+        final user = _users[index];
+        _users[index] = AdminUserEntity(
+          id: user.id,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role,
+          isActive: isActive,
+        );
+      }
+      Get.snackbar('Success', 'User status updated successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to update user status: ${e.toString()}');
     }
   }
 }

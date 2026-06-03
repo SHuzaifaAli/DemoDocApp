@@ -25,6 +25,7 @@ class AdminBinding extends Bindings {
         getStatsUseCase: Get.find<GetAdminStatsUseCase>(),
         getUsersUseCase: Get.find<GetAllUsersUseCase>(),
         getHospitalsUseCase: Get.find<GetHospitalsUseCase>(),
+        updateUserStatusUseCase: Get.find<UpdateUserStatusUseCase>(),
       ),
     );
   }

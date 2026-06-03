@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/admin_controller.dart';
+import 'user_management_screen.dart';
 
 class AdminDashboardScreen extends GetView<AdminController> {
   const AdminDashboardScreen({super.key});
@@ -84,7 +85,7 @@ class AdminDashboardScreen extends GetView<AdminController> {
           title: const Text('User Management'),
           subtitle: Text('${controller.users.length} registered users'),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () {},
+          onTap: () => Get.to(() => const UserManagementScreen()),
         ),
         const Divider(),
         ListTile(
