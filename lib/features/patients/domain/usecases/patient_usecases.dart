@@ -25,3 +25,9 @@ class GetAppointmentHistoryUseCase {
   GetAppointmentHistoryUseCase(this.repository);
   Future<List<AppointmentEntity>> execute(String patientId) => repository.getAppointmentHistory(patientId);
 }
+
+class CancelAppointmentUseCase {
+  final PatientRepository repository;
+  CancelAppointmentUseCase(this.repository);
+  Future<void> execute(String appointmentId) => repository.cancelAppointment(appointmentId);
+}

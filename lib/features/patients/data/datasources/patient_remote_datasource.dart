@@ -6,6 +6,7 @@ abstract class PatientRemoteDataSource {
   Future<List<DoctorModel>> searchDoctors(String query);
   Future<void> bookAppointment(String patientId, String doctorId, DateTime time, String reason);
   Future<List<AppointmentModel>> getAppointments(String patientId);
+  Future<void> cancelAppointment(String appointmentId);
 }
 
 class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
@@ -63,5 +64,10 @@ class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
         .order('appointment_start_time', ascending: false);
     
     return (response as List).map((json) => AppointmentModel.fromJson(json)).toList();
+  }
+
+  @override
+  Future<void> cancelAppointment(String appointmentId) async {
+    await supabase.from('appointments').update({'status': 'cancelled'}).eq('id', appointmentId);
   }
 }

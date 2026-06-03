@@ -24,4 +24,8 @@ class PatientRepositoryImpl implements PatientRepository {
   @override
   Future<List<AppointmentEntity>> getAppointmentHistory(String patientId) =>
       remoteDataSource.getAppointments(patientId);
+
+  @override
+  Future<void> cancelAppointment(String appointmentId) =>
+      remoteDataSource.cancelAppointment(appointmentId);
 }

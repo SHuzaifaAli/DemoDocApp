@@ -99,6 +99,35 @@ class PatientDashboardScreen extends GetView<PatientController> {
     );
   }
 
+  Color _getStatusColor(String status) {
+    switch (status) {
+      case 'confirmed': return Colors.green;
+      case 'pending': return Colors.orange;
+      case 'cancelled': return Colors.red;
+      case 'completed': return Colors.blue;
+      default: return Colors.grey;
+    }
+  }
+
+  void _showCancelDialog(String appointmentId) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Cancel Appointment'),
+        content: const Text('Are you sure you want to cancel this appointment?'),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text('No')),
+          TextButton(
+            onPressed: () {
+              Get.find<PatientController>().cancelAppointment(appointmentId);
+              Get.back();
+            },
+            child: const Text('Yes, Cancel', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAppointmentsList() {
     if (controller.appointments.isEmpty) {
       return const Center(child: Text('No upcoming appointments'));
@@ -115,10 +144,15 @@ class PatientDashboardScreen extends GetView<PatientController> {
           child: ListTile(
             title: Text('Dr. ${appointment.doctorName}'),
             subtitle: Text('${appointment.hospitalName} - ${appointment.appointmentTime.toString().split('.')[0]}'),
-            trailing: Chip(
-              label: Text(appointment.status),
-              backgroundColor: appointment.status == 'confirmed' ? Colors.green[100] : Colors.orange[100],
-            ),
+            trailing: appointment.status == 'pending' || appointment.status == 'confirmed'
+                ? IconButton(
+                    icon: const Icon(Icons.cancel, color: Colors.red),
+                    onPressed: () => _showCancelDialog(appointment.id),
+                  )
+                : Chip(
+                    label: Text(appointment.status),
+                    backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
+                  ),
           ),
         );
       },

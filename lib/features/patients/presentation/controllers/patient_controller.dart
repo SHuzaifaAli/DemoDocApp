@@ -6,10 +6,16 @@ import '../../../../features/auth/presentation/controllers/auth_controller.dart'
 class PatientController extends GetxController {
   final GetPatientProfileUseCase getProfileUseCase;
   final GetAppointmentHistoryUseCase getAppointmentsUseCase;
+  final SearchDoctorsUseCase searchDoctorsUseCase;
+  final BookAppointmentUseCase bookAppointmentUseCase;
+  final CancelAppointmentUseCase cancelAppointmentUseCase;
 
   PatientController({
     required this.getProfileUseCase,
     required this.getAppointmentsUseCase,
+    required this.searchDoctorsUseCase,
+    required this.bookAppointmentUseCase,
+    required this.cancelAppointmentUseCase,
   });
 
   final _isLoading = false.obs;
@@ -37,6 +43,19 @@ class PatientController extends GetxController {
       _appointments.value = await getAppointmentsUseCase.execute(userId);
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch patient data: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> cancelAppointment(String appointmentId) async {
+    try {
+      _isLoading.value = true;
+      await cancelAppointmentUseCase.execute(appointmentId);
+      await fetchData(); // Refresh
+      Get.snackbar('Success', 'Appointment cancelled');
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
     } finally {
       _isLoading.value = false;
     }
