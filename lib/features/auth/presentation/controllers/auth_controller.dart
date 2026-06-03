@@ -20,10 +20,9 @@ class AuthController extends GetxController {
   final _user = Rxn<UserEntity>();
   UserEntity? get user => _user.value;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // In a real app, we'd check for an existing session here
+  Future<void> signOut() async {
+    _user.value = null;
+    Get.offAllNamed('/login');
   }
 
   Future<void> login(String email, String password) async {

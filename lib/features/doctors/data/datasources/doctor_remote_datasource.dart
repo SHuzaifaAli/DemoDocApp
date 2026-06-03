@@ -1,5 +1,6 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/doctor_profile_model.dart';
+import '../../domain/entities/doctor_profile_entity.dart';
 
 abstract class DoctorRemoteDataSource {
   Future<DoctorProfileModel> getProfile(String id);

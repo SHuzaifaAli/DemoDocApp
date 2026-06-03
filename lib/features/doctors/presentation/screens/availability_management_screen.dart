@@ -78,13 +78,13 @@ class _AvailabilityManagementScreenState extends State<AvailabilityManagementScr
 
   void _addTimeSlot() async {
     final startTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (startTime == null) return;
+    if (startTime == null || !mounted) return;
     
     final endTime = await showTimePicker(
       context: context, 
       initialTime: TimeOfDay(hour: startTime.hour + 1, minute: startTime.minute),
     );
-    if (endTime == null) return;
+    if (endTime == null || !mounted) return;
 
     setState(() {
       _newSlots.add({

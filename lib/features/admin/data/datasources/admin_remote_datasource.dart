@@ -23,9 +23,9 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
     final appointmentsResponse = await supabase.from('appointments').select('*').count(CountOption.exact);
     
     return AdminStatsModel(
-      totalPatients: patientsResponse.count ?? 0,
-      totalDoctors: doctorsResponse.count ?? 0,
-      totalAppointments: appointmentsResponse.count ?? 0,
+      totalPatients: patientsResponse.count,
+      totalDoctors: doctorsResponse.count,
+      totalAppointments: appointmentsResponse.count,
       totalRevenue: 0.0, // Placeholder
     );
   }

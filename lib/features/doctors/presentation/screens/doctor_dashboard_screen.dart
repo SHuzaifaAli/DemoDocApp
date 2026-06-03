@@ -264,6 +264,7 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
       lastDate: DateTime.now().add(const Duration(days: 30)),
     );
     if (picked != null) {
+      if (!context.mounted) return;
       final TimeOfDay? time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.now(),

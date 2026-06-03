@@ -8,8 +8,6 @@ class AnalyticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<AdminController>();
-
     return Scaffold(
       appBar: AppBar(title: const Text('Detailed Analytics')),
       body: SingleChildScrollView(

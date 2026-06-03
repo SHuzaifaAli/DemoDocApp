@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/patient_controller.dart';
-import '../../doctors/domain/entities/doctor_profile_entity.dart';
+import '../domain/entities/patient_entity.dart';
+import '../../auth/presentation/controllers/auth_controller.dart';
 
 class DoctorSearchScreen extends StatefulWidget {
   const DoctorSearchScreen({super.key});
@@ -69,7 +70,7 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                     ),
                   if (_selectedHospital != null)
                     Chip(
-                      label: Text('Hospital Selected'),
+                      label: const Text('Hospital Selected'),
                       onDeleted: () => setState(() {
                         _selectedHospital = null;
                         _performSearch();
@@ -138,17 +139,17 @@ class _DoctorSearchScreenState extends State<DoctorSearchScreen> {
                     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
-                  Text(doctor.specialty, style: TextStyle(color: Colors.blue.shade700)),
+                  Text(doctor.specialty ?? 'General', style: TextStyle(color: Colors.blue.shade700)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
                       const Icon(Icons.location_on, size: 14, color: Colors.grey),
                       const SizedBox(width: 4),
-                      Text(doctor.hospitalName, style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                      Text(doctor.hospitalName ?? 'Hospital', style: const TextStyle(fontSize: 12, color: Colors.grey)),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text('\$${doctor.consultationFee.toStringAsFixed(2)}', 
+                  Text('\$${(doctor.consultationFee ?? 0.0).toStringAsFixed(2)}', 
                     style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.green)),
                 ],
               ),
