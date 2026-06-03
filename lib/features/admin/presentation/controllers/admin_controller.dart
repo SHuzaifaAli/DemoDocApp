@@ -7,12 +7,14 @@ class AdminController extends GetxController {
   final GetAllUsersUseCase getUsersUseCase;
   final GetHospitalsUseCase getHospitalsUseCase;
   final UpdateUserStatusUseCase updateUserStatusUseCase;
+  final CreateHospitalUseCase createHospitalUseCase;
 
   AdminController({
     required this.getStatsUseCase,
     required this.getUsersUseCase,
     required this.getHospitalsUseCase,
     required this.updateUserStatusUseCase,
+    required this.createHospitalUseCase,
   });
 
   final _isLoading = false.obs;
@@ -64,6 +66,19 @@ class AdminController extends GetxController {
       Get.snackbar('Success', 'User status updated successfully');
     } catch (e) {
       Get.snackbar('Error', 'Failed to update user status: ${e.toString()}');
+    }
+  }
+
+  Future<void> createHospital(HospitalEntity hospital) async {
+    try {
+      _isLoading.value = true;
+      await createHospitalUseCase.execute(hospital);
+      await fetchData(); // Refresh list
+      Get.snackbar('Success', 'Hospital created successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to create hospital: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
     }
   }
 }

@@ -24,3 +24,9 @@ class GetHospitalsUseCase {
   GetHospitalsUseCase(this.repository);
   Future<List<HospitalEntity>> execute() => repository.getHospitals();
 }
+
+class CreateHospitalUseCase {
+  final AdminRepository repository;
+  CreateHospitalUseCase(this.repository);
+  Future<void> execute(HospitalEntity hospital) => repository.createHospital(hospital);
+}
