@@ -3,7 +3,7 @@ import '../models/patient_model.dart';
 
 abstract class PatientRemoteDataSource {
   Future<PatientModel> getProfile(String id);
-  Future<List<DoctorModel>> searchDoctors(String query);
+  Future<List<DoctorModel>> searchDoctors(String query, {String? specialty, String? hospitalId});
   Future<void> bookAppointment(String patientId, String doctorId, DateTime time, String reason);
   Future<List<AppointmentModel>> getAppointments(String patientId);
   Future<void> cancelAppointment(String appointmentId);
@@ -29,12 +29,24 @@ class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
   }
 
   @override
-  Future<List<DoctorModel>> searchDoctors(String query) async {
-    final response = await supabase
+  Future<List<DoctorModel>> searchDoctors(String query, {String? specialty, String? hospitalId}) async {
+    var request = supabase
         .from('doctors')
-        .select('*, profiles(full_name, avatar_url), hospitals(name), doctor_specialty_link(doctor_specialties(name))')
-        .ilike('profiles.full_name', '%$query%');
+        .select('*, profiles!inner(full_name, avatar_url), hospitals(name), doctor_specialty_link!inner(doctor_specialties!inner(name))');
     
+    if (query.isNotEmpty) {
+      request = request.ilike('profiles.full_name', '%$query%');
+    }
+    
+    if (specialty != null && specialty.isNotEmpty) {
+      request = request.eq('doctor_specialty_link.doctor_specialties.name', specialty);
+    }
+
+    if (hospitalId != null && hospitalId.isNotEmpty) {
+      request = request.eq('hospital_id', hospitalId);
+    }
+    
+    final response = await request;
     return (response as List).map((json) => DoctorModel.fromJson(json)).toList();
   }
 

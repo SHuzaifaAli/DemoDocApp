@@ -15,7 +15,8 @@ class PatientRepositoryImpl implements PatientRepository {
   }
 
   @override
-  Future<List<DoctorEntity>> searchDoctors(String query) => remoteDataSource.searchDoctors(query);
+  Future<List<DoctorEntity>> searchDoctors(String query, {String? specialty, String? hospitalId}) => 
+      remoteDataSource.searchDoctors(query, specialty: specialty, hospitalId: hospitalId);
 
   @override
   Future<void> bookAppointment(String patientId, String doctorId, DateTime time, String reason) =>

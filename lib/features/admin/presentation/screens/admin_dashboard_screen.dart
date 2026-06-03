@@ -86,29 +86,44 @@ class AdminDashboardScreen extends GetView<AdminController> {
       children: [
         const Text('Management', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         const SizedBox(height: 12),
-        ListTile(
-          leading: const Icon(Icons.person_outline),
-          title: const Text('User Management'),
-          subtitle: Text('${controller.users.length} registered users'),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => Get.to(() => const UserManagementScreen()),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.local_hospital_outlined),
-          title: const Text('Hospital Management'),
-          subtitle: Text('${controller.hospitals.length} hospitals'),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => Get.to(() => const HospitalManagementScreen()),
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.bar_chart),
-          title: const Text('Detailed Reports'),
-          subtitle: const Text('View detailed analytics and logs'),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => Get.to(() => const AnalyticsScreen()),
-        ),
+        if (controller.users.isEmpty && controller.hospitals.isEmpty)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                children: [
+                  Icon(Icons.inbox_outlined, size: 48, color: Colors.grey.withValues(alpha: 0.5)),
+                  const SizedBox(height: 16),
+                  const Text('No data available to manage', style: TextStyle(color: Colors.grey)),
+                ],
+              ),
+            ),
+          )
+        else ...[
+          ListTile(
+            leading: const Icon(Icons.person_outline),
+            title: const Text('User Management'),
+            subtitle: Text('${controller.users.length} registered users'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Get.to(() => const UserManagementScreen()),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.local_hospital_outlined),
+            title: const Text('Hospital Management'),
+            subtitle: Text('${controller.hospitals.length} hospitals'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Get.to(() => const HospitalManagementScreen()),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.bar_chart),
+            title: const Text('Detailed Reports'),
+            subtitle: const Text('View detailed analytics and logs'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Get.to(() => const AnalyticsScreen()),
+          ),
+        ],
       ],
     );
   }

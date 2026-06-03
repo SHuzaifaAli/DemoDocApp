@@ -9,6 +9,7 @@ import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/auth/presentation/screens/profile_screen.dart';
 import 'features/auth/presentation/bindings/auth_binding.dart';
 import 'features/patients/presentation/screens/patient_dashboard_screen.dart';
+import 'features/patients/presentation/screens/doctor_search_screen.dart';
 import 'features/patients/presentation/bindings/patient_binding.dart';
 import 'features/doctors/presentation/screens/doctor_dashboard_screen.dart';
 import 'features/doctors/presentation/bindings/doctor_binding.dart';
@@ -62,6 +63,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/patient-dashboard',
           page: () => const PatientDashboardScreen(),
+          binding: PatientBinding(),
+        ),
+        GetPage(
+          name: '/search-doctors',
+          page: () => const DoctorSearchScreen(),
           binding: PatientBinding(),
         ),
         GetPage(

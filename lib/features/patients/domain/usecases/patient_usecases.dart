@@ -10,7 +10,8 @@ class GetPatientProfileUseCase {
 class SearchDoctorsUseCase {
   final PatientRepository repository;
   SearchDoctorsUseCase(this.repository);
-  Future<List<DoctorEntity>> execute(String query) => repository.searchDoctors(query);
+  Future<List<DoctorEntity>> execute(String query, {String? specialty, String? hospitalId}) => 
+      repository.searchDoctors(query, specialty: specialty, hospitalId: hospitalId);
 }
 
 class BookAppointmentUseCase {
