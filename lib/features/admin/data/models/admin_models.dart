@@ -46,12 +46,15 @@ class AdminUserModel extends AdminUserEntity {
   });
 
   factory AdminUserModel.fromJson(Map<String, dynamic> json) {
+    final profile = json['profiles'] as Map<String, dynamic>?;
+    final role = json['roles'] as Map<String, dynamic>?;
+    
     return AdminUserModel(
-      id: json['id'],
-      fullName: json['profiles']['full_name'] ?? '',
-      email: json['profiles']['email'] ?? '',
-      role: json['roles']['name'] ?? 'Unknown',
-      isActive: json['is_active'] ?? true,
+      id: json['user_id'] ?? '',
+      fullName: profile?['full_name'] ?? 'No Name',
+      email: profile?['email'] ?? 'No Email', // Note: Ensure email is fetched if stored in profiles
+      role: role?['name'] ?? 'Unknown',
+      isActive: profile?['status'] == 'active',
     );
   }
 }

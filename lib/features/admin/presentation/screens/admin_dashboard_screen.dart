@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/admin_controller.dart';
 import 'user_management_screen.dart';
 import 'hospital_management_screen.dart';
+import 'analytics_screen.dart';
 
 class AdminDashboardScreen extends GetView<AdminController> {
   const AdminDashboardScreen({super.key});
@@ -102,7 +103,7 @@ class AdminDashboardScreen extends GetView<AdminController> {
           title: const Text('Detailed Reports'),
           subtitle: const Text('View detailed analytics and logs'),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () {},
+          onTap: () => Get.to(() => const AnalyticsScreen()),
         ),
       ],
     );

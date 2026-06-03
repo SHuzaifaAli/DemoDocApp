@@ -10,3 +10,13 @@ class SignInUseCase {
     return repository.signInWithEmail(email, password);
   }
 }
+
+class SignUpUseCase {
+  final AuthRepository repository;
+
+  SignUpUseCase(this.repository);
+
+  Future<UserEntity> execute(String email, String password, String fullName) {
+    return repository.signUpWithEmail(email, password, fullName);
+  }
+}

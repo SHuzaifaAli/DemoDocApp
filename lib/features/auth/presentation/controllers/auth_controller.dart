@@ -5,8 +5,12 @@ import 'package:hospital_booking_management/core/constants/app_constants.dart';
 
 class AuthController extends GetxController {
   final SignInUseCase signInUseCase;
+  final SignUpUseCase signUpUseCase;
 
-  AuthController({required this.signInUseCase});
+  AuthController({
+    required this.signInUseCase,
+    required this.signUpUseCase,
+  });
 
   final _isLoading = false.obs;
   bool get isLoading => _isLoading.value;
@@ -18,6 +22,19 @@ class AuthController extends GetxController {
     try {
       _isLoading.value = true;
       final userEntity = await signInUseCase.execute(email, password);
+      _user.value = userEntity;
+      _navigateBasedOnRole(userEntity.role);
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> register(String email, String password, String fullName) async {
+    try {
+      _isLoading.value = true;
+      final userEntity = await signUpUseCase.execute(email, password, fullName);
       _user.value = userEntity;
       _navigateBasedOnRole(userEntity.role);
     } catch (e) {
@@ -40,7 +57,7 @@ class AuthController extends GetxController {
         Get.offAllNamed('/admin-dashboard');
         break;
       default:
-        Get.offAllNamed('/');
+        Get.offAllNamed('/login');
     }
   }
 }
