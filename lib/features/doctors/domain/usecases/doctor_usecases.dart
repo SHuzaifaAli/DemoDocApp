@@ -32,3 +32,10 @@ class RescheduleAppointmentUseCase {
   Future<void> execute(String appointmentId, DateTime newTime) =>
       repository.rescheduleAppointment(appointmentId, newTime);
 }
+
+class UpdateAvailabilityUseCase {
+  final DoctorRepository repository;
+  UpdateAvailabilityUseCase(this.repository);
+  Future<void> execute(String doctorId, List<Map<String, dynamic>> slots) =>
+      repository.updateAvailability(doctorId, slots);
+}

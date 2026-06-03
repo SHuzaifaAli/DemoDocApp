@@ -7,14 +7,24 @@ import 'package:hospital_booking_management/features/auth/presentation/controlle
 import 'package:hospital_booking_management/features/auth/domain/usecases/sign_in_usecase.dart';
 
 class MockSignInUseCase extends Mock implements SignInUseCase {}
+class MockSignUpUseCase extends Mock implements SignUpUseCase {}
+class MockUpdateProfileUseCase extends Mock implements UpdateProfileUseCase {}
 
 void main() {
   late MockSignInUseCase mockSignInUseCase;
+  late MockSignUpUseCase mockSignUpUseCase;
+  late MockUpdateProfileUseCase mockUpdateProfileUseCase;
   late AuthController controller;
 
   setUp(() {
     mockSignInUseCase = MockSignInUseCase();
-    controller = AuthController(signInUseCase: mockSignInUseCase);
+    mockSignUpUseCase = MockSignUpUseCase();
+    mockUpdateProfileUseCase = MockUpdateProfileUseCase();
+    controller = AuthController(
+      signInUseCase: mockSignInUseCase,
+      signUpUseCase: mockSignUpUseCase,
+      updateProfileUseCase: mockUpdateProfileUseCase,
+    );
     Get.put(controller);
   });
 

@@ -16,7 +16,7 @@ class SignUpUseCase {
 
   SignUpUseCase(this.repository);
 
-  Future<UserEntity> execute(String email, String password, String fullName) {
+  Future<UserEntity> execute({required String email, required String password, required String fullName}) {
     return repository.signUpWithEmail(email, password, fullName: fullName);
   }
 }

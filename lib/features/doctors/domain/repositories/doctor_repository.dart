@@ -7,4 +7,5 @@ abstract class DoctorRepository {
   Future<void> addMedicalRecord(String patientId, String doctorId, String notes);
   Future<void> rescheduleAppointment(String appointmentId, DateTime newTime);
   Future<List<PatientRecordEntity>> getPatientHistory(String patientId);
+  Future<void> updateAvailability(String doctorId, List<Map<String, dynamic>> slots);
 }

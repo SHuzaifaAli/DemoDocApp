@@ -27,7 +27,10 @@ class DoctorRepositoryImpl implements DoctorRepository {
 
   @override
   Future<List<PatientRecordEntity>> getPatientHistory(String patientId) async {
-    // Implementation for fetching history
-    return [];
+    return remoteDataSource.getPatientHistory(patientId);
   }
+
+  @override
+  Future<void> updateAvailability(String doctorId, List<Map<String, dynamic>> slots) =>
+      remoteDataSource.updateAvailability(doctorId, slots);
 }

@@ -33,8 +33,17 @@ class PatientDashboardScreen extends GetView<PatientController> {
                 const SizedBox(height: 24),
                 _buildActionButtons(),
                 const SizedBox(height: 24),
+                if (controller.upcomingEvents.isNotEmpty) ...[
+                  const Text(
+                    'Upcoming Events',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildUpcomingEventsSection(),
+                  const SizedBox(height: 24),
+                ],
                 const Text(
-                  'Upcoming Appointments',
+                  'Appointment History',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
@@ -87,7 +96,7 @@ class PatientDashboardScreen extends GetView<PatientController> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: Colors.blue, size: 32),
@@ -128,6 +137,64 @@ class PatientDashboardScreen extends GetView<PatientController> {
     );
   }
 
+  Widget _buildUpcomingEventsSection() {
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: controller.upcomingEvents.length,
+        itemBuilder: (context, index) {
+          final event = controller.upcomingEvents[index];
+          return Container(
+            width: 280,
+            margin: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue.shade700, Colors.blue.shade400],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blue.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Dr. ${event.doctorName}',
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const Icon(Icons.video_call, color: Colors.white),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  event.hospitalName,
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.8), fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Today, ${event.appointmentTime.hour}:${event.appointmentTime.minute.toString().padLeft(2, '0')}',
+                  style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildAppointmentsList() {
     if (controller.appointments.isEmpty) {
       return const Center(child: Text('No upcoming appointments'));
@@ -151,7 +218,7 @@ class PatientDashboardScreen extends GetView<PatientController> {
                   )
                 : Chip(
                     label: Text(appointment.status),
-                    backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
+                    backgroundColor: _getStatusColor(appointment.status).withValues(alpha: 0.1),
                   ),
           ),
         );

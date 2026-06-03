@@ -27,6 +27,11 @@ class PatientController extends GetxController {
   final _appointments = <AppointmentEntity>[].obs;
   List<AppointmentEntity> get appointments => _appointments;
 
+  List<AppointmentEntity> get upcomingEvents => _appointments
+      .where((a) => a.status == 'confirmed' || a.status == 'pending')
+      .where((a) => a.appointmentTime.isAfter(DateTime.now()))
+      .toList();
+
   @override
   void onInit() {
     super.onInit();

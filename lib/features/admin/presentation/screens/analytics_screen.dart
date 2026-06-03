@@ -41,7 +41,7 @@ class AnalyticsScreen extends StatelessWidget {
                       isCurved: true,
                       color: Colors.blue,
                       barWidth: 4,
-                      belowBarData: BarAreaData(show: true, color: Colors.blue.withOpacity(0.1)),
+                      belowBarData: BarAreaData(show: true, color: Colors.blue.withValues(alpha: 0.1)),
                     ),
                   ],
                 ),

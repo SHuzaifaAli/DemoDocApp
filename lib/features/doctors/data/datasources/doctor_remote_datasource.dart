@@ -7,6 +7,8 @@ abstract class DoctorRemoteDataSource {
   Future<void> updateAppointmentStatus(String appointmentId, String status);
   Future<void> addMedicalRecord(String patientId, String doctorId, String notes);
   Future<void> rescheduleAppointment(String appointmentId, DateTime newTime);
+  Future<List<PatientRecordEntity>> getPatientHistory(String patientId);
+  Future<void> updateAvailability(String doctorId, List<Map<String, dynamic>> slots);
 }
 
 class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
@@ -54,5 +56,45 @@ class DoctorRemoteDataSourceImpl implements DoctorRemoteDataSource {
       'appointment_start_time': newTime.toIso8601String(),
       'appointment_end_time': newTime.add(const Duration(minutes: 30)).toIso8601String(),
     }).eq('id', appointmentId);
+  }
+
+  @override
+  Future<List<PatientRecordEntity>> getPatientHistory(String patientId) async {
+    final response = await supabase
+        .from('medical_records')
+        .select()
+        .eq('patient_id', patientId)
+        .order('created_at', ascending: false);
+    
+    return (response as List).map((json) => PatientRecordEntity(
+      id: json['id'],
+      patientId: json['patient_id'],
+      doctorId: json['doctor_id'],
+      notes: json['notes'],
+      createdAt: DateTime.parse(json['created_at']),
+    )).toList();
+  }
+
+  @override
+  Future<void> updateAvailability(String doctorId, List<Map<String, dynamic>> slots) async {
+    // Delete existing unbooked slots for future dates
+    await supabase.from('doctor_availability')
+        .delete()
+        .eq('doctor_id', doctorId)
+        .eq('is_booked', false)
+        .gte('available_date', DateTime.now().toIso8601String().split('T')[0]);
+
+    // Insert new slots
+    if (slots.isNotEmpty) {
+      await supabase.from('doctor_availability').insert(
+        slots.map((slot) => {
+          'doctor_id': doctorId,
+          'available_date': slot['available_date'],
+          'start_time': slot['start_time'],
+          'end_time': slot['end_time'],
+          'slot_duration_minutes': slot['slot_duration_minutes'] ?? 30,
+        }).toList()
+      );
+    }
   }
 }

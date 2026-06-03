@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/doctor_controller.dart';
+import 'availability_management_screen.dart';
 
 class DoctorDashboardScreen extends GetView<DoctorController> {
   const DoctorDashboardScreen({super.key});
@@ -37,8 +38,19 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
                 const SizedBox(height: 24),
                 _buildStatsCards(),
                 const SizedBox(height: 24),
+                _buildActionButtons(),
+                const SizedBox(height: 24),
+                if (controller.upcomingEvents.isNotEmpty) ...[
+                  const Text(
+                    'Upcoming Events',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildUpcomingEventsSection(),
+                  const SizedBox(height: 24),
+                ],
                 const Text(
-                  'Today\'s Appointments',
+                  'All Appointments',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
@@ -91,13 +103,44 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
     );
   }
 
+  Widget _buildActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildActionCard(Icons.calendar_month, 'Availability', () => Get.to(() => const AvailabilityManagementScreen())),
+        _buildActionCard(Icons.history, 'History', () {}),
+        _buildActionCard(Icons.medical_services, 'Records', () {}),
+      ],
+    );
+  }
+
+  Widget _buildActionCard(IconData icon, String label, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.teal.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: Colors.teal, size: 32),
+          ),
+          const SizedBox(height: 8),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStatCard(String label, String value, Color color) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -105,6 +148,64 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
           const SizedBox(height: 4),
           Text(label, style: const TextStyle(fontSize: 12)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildUpcomingEventsSection() {
+    return SizedBox(
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: controller.upcomingEvents.length,
+        itemBuilder: (context, index) {
+          final event = controller.upcomingEvents[index];
+          return Container(
+            width: 280,
+            margin: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.teal.shade700, Colors.teal.shade400],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.teal.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      event.patientName,
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const Icon(Icons.video_call, color: Colors.white),
+                  ],
+                ),
+                const Spacer(),
+                const Text(
+                  'Tele-consultation',
+                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Today, ${event.appointmentTime.hour}:${event.appointmentTime.minute.toString().padLeft(2, '0')}',
+                  style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -141,7 +242,7 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
                   ],
                   child: Chip(
                     label: Text(appointment.status),
-                    backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
+                    backgroundColor: _getStatusColor(appointment.status).withValues(alpha: 0.1),
                   ),
                 ),
               ],

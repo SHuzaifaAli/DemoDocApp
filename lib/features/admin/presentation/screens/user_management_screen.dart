@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/admin_controller.dart';
-import '../../domain/entities/admin_entities.dart';
+// Removed unused import
 
 class UserManagementScreen extends StatelessWidget {
   const UserManagementScreen({super.key});
@@ -48,7 +48,7 @@ class UserManagementScreen extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: _getRoleColor(user.role).withOpacity(0.1),
+                        color: _getRoleColor(user.role).withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: _getRoleColor(user.role)),
                       ),

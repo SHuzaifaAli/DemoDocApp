@@ -42,7 +42,7 @@ class AuthController extends GetxController {
   Future<void> register(String email, String password, String fullName) async {
     try {
       _isLoading.value = true;
-      final userEntity = await signUpUseCase.execute(email, password, fullName);
+      final userEntity = await signUpUseCase.execute(email: email, password: password, fullName: fullName);
       _user.value = userEntity;
       _navigateBasedOnRole(userEntity.role);
     } catch (e) {

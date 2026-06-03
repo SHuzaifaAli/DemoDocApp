@@ -41,3 +41,17 @@ class AdminUserEntity {
     required this.isActive,
   });
 }
+
+class DepartmentEntity {
+  final String id;
+  final String hospitalId;
+  final String name;
+  final String? description;
+
+  DepartmentEntity({
+    required this.id,
+    required this.hospitalId,
+    required this.name,
+    this.description,
+  });
+}
