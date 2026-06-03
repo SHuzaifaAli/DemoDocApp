@@ -1,6 +1,7 @@
 import '../../domain/entities/admin_entities.dart';
 import '../../domain/repositories/admin_repository.dart';
 import '../datasources/admin_remote_datasource.dart';
+import '../models/admin_models.dart';
 
 class AdminRepositoryImpl implements AdminRepository {
   final AdminRemoteDataSource remoteDataSource;
@@ -21,6 +22,11 @@ class AdminRepositoryImpl implements AdminRepository {
 
   @override
   Future<void> createHospital(HospitalEntity hospital) async {
-    // Implementation for creating hospital
+    await remoteDataSource.createHospital(HospitalModel(
+      id: hospital.id,
+      name: hospital.name,
+      address: hospital.address,
+      phoneNumber: hospital.phoneNumber,
+    ));
   }
 }
