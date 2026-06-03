@@ -29,4 +29,18 @@ class AdminRepositoryImpl implements AdminRepository {
       phoneNumber: hospital.phoneNumber,
     ));
   }
+
+  @override
+  Future<List<DepartmentEntity>> getDepartments(String hospitalId) =>
+      remoteDataSource.getDepartments(hospitalId);
+
+  @override
+  Future<void> createDepartment(DepartmentEntity department) async {
+    await remoteDataSource.createDepartment(DepartmentModel(
+      id: department.id,
+      hospitalId: department.hospitalId,
+      name: department.name,
+      description: department.description,
+    ));
+  }
 }

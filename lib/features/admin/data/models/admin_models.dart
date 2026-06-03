@@ -36,6 +36,24 @@ class HospitalModel extends HospitalEntity {
   }
 }
 
+class DepartmentModel extends DepartmentEntity {
+  DepartmentModel({
+    required super.id,
+    required super.hospitalId,
+    required super.name,
+    super.description,
+  });
+
+  factory DepartmentModel.fromJson(Map<String, dynamic> json) {
+    return DepartmentModel(
+      id: json['id'],
+      hospitalId: json['hospital_id'],
+      name: json['name'],
+      description: json['description'],
+    );
+  }
+}
+
 class AdminUserModel extends AdminUserEntity {
   AdminUserModel({
     required super.id,

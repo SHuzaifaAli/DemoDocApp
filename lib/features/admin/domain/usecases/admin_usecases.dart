@@ -30,3 +30,15 @@ class CreateHospitalUseCase {
   CreateHospitalUseCase(this.repository);
   Future<void> execute(HospitalEntity hospital) => repository.createHospital(hospital);
 }
+
+class GetDepartmentsUseCase {
+  final AdminRepository repository;
+  GetDepartmentsUseCase(this.repository);
+  Future<List<DepartmentEntity>> execute(String hospitalId) => repository.getDepartments(hospitalId);
+}
+
+class CreateDepartmentUseCase {
+  final AdminRepository repository;
+  CreateDepartmentUseCase(this.repository);
+  Future<void> execute(DepartmentEntity department) => repository.createDepartment(department);
+}

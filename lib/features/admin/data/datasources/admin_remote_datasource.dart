@@ -7,6 +7,8 @@ abstract class AdminRemoteDataSource {
   Future<void> updateUserStatus(String userId, bool isActive);
   Future<List<HospitalModel>> getHospitals();
   Future<void> createHospital(HospitalModel hospital);
+  Future<List<DepartmentModel>> getDepartments(String hospitalId);
+  Future<void> createDepartment(DepartmentModel department);
 }
 
 class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
@@ -55,6 +57,21 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
       'name': hospital.name,
       'address': hospital.address,
       'phone_number': hospital.phoneNumber,
+    });
+  }
+
+  @override
+  Future<List<DepartmentModel>> getDepartments(String hospitalId) async {
+    final response = await supabase.from('departments').select().eq('hospital_id', hospitalId);
+    return (response as List).map((json) => DepartmentModel.fromJson(json)).toList();
+  }
+
+  @override
+  Future<void> createDepartment(DepartmentModel department) async {
+    await supabase.from('departments').insert({
+      'hospital_id': department.hospitalId,
+      'name': department.name,
+      'description': department.description,
     });
   }
 }

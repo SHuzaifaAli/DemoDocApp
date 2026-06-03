@@ -6,4 +6,6 @@ abstract class AdminRepository {
   Future<void> updateUserStatus(String userId, bool isActive);
   Future<List<HospitalEntity>> getHospitals();
   Future<void> createHospital(HospitalEntity hospital);
+  Future<List<DepartmentEntity>> getDepartments(String hospitalId);
+  Future<void> createDepartment(DepartmentEntity department);
 }

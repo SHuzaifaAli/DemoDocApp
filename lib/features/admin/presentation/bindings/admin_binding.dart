@@ -20,6 +20,8 @@ class AdminBinding extends Bindings {
     Get.lazyPut(() => GetHospitalsUseCase(Get.find<AdminRepository>()));
     Get.lazyPut(() => UpdateUserStatusUseCase(Get.find<AdminRepository>()));
     Get.lazyPut(() => CreateHospitalUseCase(Get.find<AdminRepository>()));
+    Get.lazyPut(() => GetDepartmentsUseCase(Get.find<AdminRepository>()));
+    Get.lazyPut(() => CreateDepartmentUseCase(Get.find<AdminRepository>()));
 
     Get.lazyPut(
       () => AdminController(
@@ -28,6 +30,8 @@ class AdminBinding extends Bindings {
         getHospitalsUseCase: Get.find<GetHospitalsUseCase>(),
         updateUserStatusUseCase: Get.find<UpdateUserStatusUseCase>(),
         createHospitalUseCase: Get.find<CreateHospitalUseCase>(),
+        getDepartmentsUseCase: Get.find<GetDepartmentsUseCase>(),
+        createDepartmentUseCase: Get.find<CreateDepartmentUseCase>(),
       ),
     );
   }

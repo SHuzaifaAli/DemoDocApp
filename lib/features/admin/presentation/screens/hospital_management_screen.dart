@@ -40,10 +40,7 @@ class HospitalManagementScreen extends StatelessWidget {
                 title: Text(hospital.name),
                 subtitle: Text(hospital.address),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: () {
-                  // TODO: Implement department management for this hospital
-                  Get.snackbar('Coming Soon', 'Department management for ${hospital.name}');
-                },
+                onTap: () => _showDepartmentsDialog(hospital, controller),
               ),
             );
           },
@@ -91,6 +88,62 @@ class HospitalManagementScreen extends StatelessWidget {
             },
             child: const Text('Add'),
           ),
+        ],
+      ),
+    );
+  }
+
+  void _showDepartmentsDialog(HospitalEntity hospital, AdminController controller) {
+    controller.fetchDepartments(hospital.id);
+    final nameController = TextEditingController();
+
+    Get.dialog(
+      AlertDialog(
+        title: Text('Departments - ${hospital.name}'),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'New Department Name',
+                  suffixIcon: Icon(Icons.add),
+                ),
+                onSubmitted: (val) {
+                  if (val.isNotEmpty) {
+                    controller.createDepartment(DepartmentEntity(
+                      id: '',
+                      hospitalId: hospital.id,
+                      name: val,
+                    ));
+                    nameController.clear();
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
+              Flexible(
+                child: Obx(() => controller.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : controller.departments.isEmpty
+                        ? const Text('No departments found')
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: controller.departments.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(controller.departments[index].name),
+                                dense: true,
+                              );
+                            },
+                          )),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text('Close')),
         ],
       ),
     );

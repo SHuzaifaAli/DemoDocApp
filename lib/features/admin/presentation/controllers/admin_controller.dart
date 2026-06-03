@@ -8,6 +8,8 @@ class AdminController extends GetxController {
   final GetHospitalsUseCase getHospitalsUseCase;
   final UpdateUserStatusUseCase updateUserStatusUseCase;
   final CreateHospitalUseCase createHospitalUseCase;
+  final GetDepartmentsUseCase getDepartmentsUseCase;
+  final CreateDepartmentUseCase createDepartmentUseCase;
 
   AdminController({
     required this.getStatsUseCase,
@@ -15,6 +17,8 @@ class AdminController extends GetxController {
     required this.getHospitalsUseCase,
     required this.updateUserStatusUseCase,
     required this.createHospitalUseCase,
+    required this.getDepartmentsUseCase,
+    required this.createDepartmentUseCase,
   });
 
   final _isLoading = false.obs;
@@ -28,6 +32,9 @@ class AdminController extends GetxController {
 
   final _hospitals = <HospitalEntity>[].obs;
   List<HospitalEntity> get hospitals => _hospitals;
+
+  final _departments = <DepartmentEntity>[].obs;
+  List<DepartmentEntity> get departments => _departments;
 
   @override
   void onInit() {
@@ -77,6 +84,31 @@ class AdminController extends GetxController {
       Get.snackbar('Success', 'Hospital created successfully');
     } catch (e) {
       Get.snackbar('Error', 'Failed to create hospital: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> fetchDepartments(String hospitalId) async {
+    try {
+      _isLoading.value = true;
+      final result = await getDepartmentsUseCase.execute(hospitalId);
+      _departments.assignAll(result);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to fetch departments: ${e.toString()}');
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> createDepartment(DepartmentEntity department) async {
+    try {
+      _isLoading.value = true;
+      await createDepartmentUseCase.execute(department);
+      await fetchDepartments(department.hospitalId);
+      Get.snackbar('Success', 'Department created successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to create department: ${e.toString()}');
     } finally {
       _isLoading.value = false;
     }
