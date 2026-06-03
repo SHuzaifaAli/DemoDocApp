@@ -40,7 +40,7 @@ class PaymentScreen extends GetView<PaymentController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.1),
+        color: Colors.blue.withAlpha((Colors.blue.alpha * 0.1).round()),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

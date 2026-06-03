@@ -57,9 +57,9 @@ class AdminDashboardScreen extends GetView<AdminController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withAlpha((color.alpha * 0.1).round()),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withAlpha((color.alpha * 0.2).round())),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import '../../domain/entities/user_entity.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
-import '../../../core/constants/app_constants.dart';
+import 'package:hospital_booking_management/core/constants/app_constants.dart';
 
 class AuthController extends GetxController {
   final SignInUseCase signInUseCase;

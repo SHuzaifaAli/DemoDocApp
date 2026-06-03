@@ -15,14 +15,14 @@ class AdminRemoteDataSourceImpl implements AdminRemoteDataSource {
   @override
   Future<AdminStatsModel> getStats() async {
     // In a real app, this might be an RPC call or multiple count queries
-    final patientsCount = await supabase.from('patients').select('id', const FetchOptions(count: CountOption.exact));
-    final doctorsCount = await supabase.from('doctors').select('id', const FetchOptions(count: CountOption.exact));
-    final appointmentsCount = await supabase.from('appointments').select('id', const FetchOptions(count: CountOption.exact));
+    final patientsCount = await supabase.from(\'patients\').count();
+    final doctorsCount = await supabase.from(\'doctors\').count();
+    final appointmentsCount = await supabase.from(\'appointments\').count();
     
     return AdminStatsModel(
-      totalPatients: patientsCount.count ?? 0,
-      totalDoctors: doctorsCount.count ?? 0,
-      totalAppointments: appointmentsCount.count ?? 0,
+      totalPatients: patientsCount,
+      totalDoctors: doctorsCount,
+      totalAppointments: appointmentsCount,
       totalRevenue: 0.0, // Placeholder
     );
   }

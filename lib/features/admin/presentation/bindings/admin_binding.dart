@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hospital_booking_management/features/admin/domain/repositories/admin_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../controllers/admin_controller.dart';
 import '../../domain/usecases/admin_usecases.dart';
