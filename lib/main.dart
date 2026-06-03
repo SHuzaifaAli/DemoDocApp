@@ -10,6 +10,8 @@ import 'features/patients/presentation/screens/patient_dashboard_screen.dart';
 import 'features/patients/presentation/bindings/patient_binding.dart';
 import 'features/doctors/presentation/screens/doctor_dashboard_screen.dart';
 import 'features/doctors/presentation/bindings/doctor_binding.dart';
+import 'features/admin/presentation/screens/admin_dashboard_screen.dart';
+import 'features/admin/presentation/bindings/admin_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +53,11 @@ class MyApp extends StatelessWidget {
           page: () => const DoctorDashboardScreen(),
           binding: DoctorBinding(),
         ),
-        GetPage(name: '/admin-dashboard', page: () => const Scaffold(body: Center(child: Text('Admin Dashboard')))),
+        GetPage(
+          name: '/admin-dashboard',
+          page: () => const AdminDashboardScreen(),
+          binding: AdminBinding(),
+        ),
       ],
     );
   }
