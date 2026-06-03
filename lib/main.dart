@@ -4,6 +4,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
+import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/auth/presentation/bindings/auth_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,16 +29,17 @@ class MyApp extends StatelessWidget {
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: '/',
+      initialRoute: '/login',
       getPages: [
         GetPage(
-          name: '/',
-          page: () => const Scaffold(
-            body: Center(
-              child: Text('Hospital Booking Management System Initialized'),
-            ),
-          ),
+          name: '/login',
+          page: () => LoginScreen(),
+          binding: AuthBinding(),
         ),
+        // Placeholders for other routes
+        GetPage(name: '/patient-dashboard', page: () => const Scaffold(body: Center(child: Text('Patient Dashboard')))),
+        GetPage(name: '/doctor-dashboard', page: () => const Scaffold(body: Center(child: Text('Doctor Dashboard')))),
+        GetPage(name: '/admin-dashboard', page: () => const Scaffold(body: Center(child: Text('Admin Dashboard')))),
       ],
     );
   }
