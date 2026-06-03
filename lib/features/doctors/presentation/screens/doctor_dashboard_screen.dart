@@ -12,6 +12,10 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
         title: const Text('Doctor Dashboard'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => Get.toNamed('/profile'),
+          ),
+          IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {},
           ),

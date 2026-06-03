@@ -6,6 +6,7 @@ import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
+import 'features/auth/presentation/screens/profile_screen.dart';
 import 'features/auth/presentation/bindings/auth_binding.dart';
 import 'features/patients/presentation/screens/patient_dashboard_screen.dart';
 import 'features/patients/presentation/bindings/patient_binding.dart';
@@ -50,6 +51,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/register',
           page: () => RegisterScreen(),
+          binding: AuthBinding(),
+        ),
+        GetPage(
+          name: '/profile',
+          page: () => const ProfileScreen(),
           binding: AuthBinding(),
         ),
         // Placeholders for other routes

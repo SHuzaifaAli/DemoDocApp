@@ -7,6 +7,7 @@ abstract class AuthRemoteDataSource {
   Future<void> signOut();
   Future<UserModel?> getCurrentUser();
   Future<String?> getUserRole(String userId);
+  Future<void> updateProfile(String userId, Map<String, dynamic> data);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -110,5 +111,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     } catch (e) {
       return {};
     }
+  }
+
+  @override
+  Future<void> updateProfile(String userId, Map<String, dynamic> data) async {
+    await supabase.from('profiles').update(data).eq('id', userId);
   }
 }

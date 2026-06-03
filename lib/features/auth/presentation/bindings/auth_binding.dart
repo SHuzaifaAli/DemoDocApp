@@ -21,12 +21,14 @@ class AuthBinding extends Bindings {
     // Use cases
     Get.lazyPut(() => SignInUseCase(Get.find<AuthRepositoryImpl>()));
     Get.lazyPut(() => SignUpUseCase(Get.find<AuthRepositoryImpl>()));
+    Get.lazyPut(() => UpdateProfileUseCase(Get.find<AuthRepositoryImpl>()));
 
     // Controllers
     Get.lazyPut(
       () => AuthController(
         signInUseCase: Get.find<SignInUseCase>(),
         signUpUseCase: Get.find<SignUpUseCase>(),
+        updateProfileUseCase: Get.find<UpdateProfileUseCase>(),
       ),
     );
   }

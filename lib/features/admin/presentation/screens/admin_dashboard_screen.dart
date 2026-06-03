@@ -15,8 +15,12 @@ class AdminDashboardScreen extends GetView<AdminController> {
         title: const Text('Admin Dashboard'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () => Get.toNamed('/profile'),
+          ),
+          IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: controller.fetchData,
+            onPressed: () => controller.fetchData(),
           ),
         ],
       ),

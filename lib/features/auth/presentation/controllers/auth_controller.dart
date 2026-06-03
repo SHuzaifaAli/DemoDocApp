@@ -6,10 +6,12 @@ import 'package:hospital_booking_management/core/constants/app_constants.dart';
 class AuthController extends GetxController {
   final SignInUseCase signInUseCase;
   final SignUpUseCase signUpUseCase;
+  final UpdateProfileUseCase updateProfileUseCase;
 
   AuthController({
     required this.signInUseCase,
     required this.signUpUseCase,
+    required this.updateProfileUseCase,
   });
 
   final _isLoading = false.obs;
@@ -17,6 +19,12 @@ class AuthController extends GetxController {
 
   final _user = Rxn<UserEntity>();
   UserEntity? get user => _user.value;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // In a real app, we'd check for an existing session here
+  }
 
   Future<void> login(String email, String password) async {
     try {
@@ -37,6 +45,28 @@ class AuthController extends GetxController {
       final userEntity = await signUpUseCase.execute(email, password, fullName);
       _user.value = userEntity;
       _navigateBasedOnRole(userEntity.role);
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      _isLoading.value = false;
+    }
+  }
+
+  Future<void> updateProfile(Map<String, dynamic> data) async {
+    if (user == null) return;
+    try {
+      _isLoading.value = true;
+      await updateProfileUseCase.execute(user!.id, data);
+      // Update local user state
+      _user.value = UserEntity(
+        id: user!.id,
+        email: user!.email,
+        fullName: data['full_name'] ?? user!.fullName,
+        phoneNumber: data['phone_number'] ?? user!.phoneNumber,
+        avatarUrl: data['avatar_url'] ?? user!.avatarUrl,
+        role: user!.role,
+      );
+      Get.snackbar('Success', 'Profile updated successfully');
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

@@ -6,4 +6,5 @@ abstract class AuthRepository {
   Future<void> signOut();
   Future<UserEntity?> getCurrentUser();
   Future<String?> getUserRole(String userId);
+  Future<void> updateProfile(String userId, Map<String, dynamic> data);
 }

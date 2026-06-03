@@ -31,4 +31,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<String?> getUserRole(String userId) {
     return remoteDataSource.getUserRole(userId);
   }
+
+  @override
+  Future<void> updateProfile(String userId, Map<String, dynamic> data) {
+    return remoteDataSource.updateProfile(userId, data);
+  }
 }

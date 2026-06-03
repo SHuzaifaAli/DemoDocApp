@@ -17,6 +17,15 @@ class SignUpUseCase {
   SignUpUseCase(this.repository);
 
   Future<UserEntity> execute(String email, String password, String fullName) {
-    return repository.signUpWithEmail(email, password, fullName);
+    return repository.signUpWithEmail(email, password, fullName: fullName);
+  }
+}
+
+class UpdateProfileUseCase {
+  final AuthRepository repository;
+  UpdateProfileUseCase(this.repository);
+
+  Future<void> execute(String userId, Map<String, dynamic> data) {
+    return repository.updateProfile(userId, data);
   }
 }
