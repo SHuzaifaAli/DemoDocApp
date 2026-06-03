@@ -1,0 +1,9 @@
+import '../entities/doctor_profile_entity.dart';
+
+abstract class DoctorRepository {
+  Future<DoctorProfileEntity> getProfile(String id);
+  Future<List<DoctorAppointmentEntity>> getAppointments(String doctorId);
+  Future<void> updateAppointmentStatus(String appointmentId, String status);
+  Future<void> addMedicalRecord(String patientId, String doctorId, String notes);
+  Future<List<PatientRecordEntity>> getPatientHistory(String patientId);
+}
