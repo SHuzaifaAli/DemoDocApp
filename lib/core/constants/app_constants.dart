@@ -14,4 +14,7 @@ class AppConstants {
   // API Timeouts
   static const int connectionTimeout = 30000;
   static const int receiveTimeout = 30000;
+  
+  // Agora Configuration
+  static const String agoraAppId = 'YOUR_AGORA_APP_ID'; // To be replaced with actual key
 }

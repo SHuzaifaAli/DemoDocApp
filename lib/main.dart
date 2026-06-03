@@ -14,6 +14,8 @@ import 'features/admin/presentation/screens/admin_dashboard_screen.dart';
 import 'features/admin/presentation/bindings/admin_binding.dart';
 import 'features/payments/presentation/screens/payment_screen.dart';
 import 'features/payments/presentation/bindings/payment_binding.dart';
+import 'features/video_consultation/presentation/screens/video_call_screen.dart';
+import 'features/video_consultation/presentation/bindings/video_call_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +66,11 @@ class MyApp extends StatelessWidget {
           name: '/payment',
           page: () => const PaymentScreen(),
           binding: PaymentBinding(),
+        ),
+        GetPage(
+          name: '/video-call',
+          page: () => const VideoCallScreen(),
+          binding: VideoCallBinding(),
         ),
       ],
     );
