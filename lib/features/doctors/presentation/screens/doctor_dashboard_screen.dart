@@ -91,9 +91,9 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withAlpha((color.alpha * 0.1).round()),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withAlpha((color.alpha * 0.3).round())),
+        border: Border.all(color: color.withOpacity(0.3)),
       ),
       child: Column(
         children: [
@@ -130,7 +130,7 @@ class DoctorDashboardScreen extends GetView<DoctorController> {
               ],
               child: Chip(
                 label: Text(appointment.status),
-                backgroundColor: _getStatusColor(appointment.status).withAlpha((_getStatusColor(appointment.status).alpha * 0.1).round()),
+                backgroundColor: _getStatusColor(appointment.status).withOpacity(0.1),
               ),
             ),
             onTap: () {

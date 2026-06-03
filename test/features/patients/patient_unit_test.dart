@@ -27,7 +27,7 @@ void main() {
 
     // assert
     expect(result, tPatient);
-    verify(() => mockRepository.getProfile('1'));
+    verify(() => mockRepository.getProfile('1')).called(1);
     verifyNoMoreInteractions(mockRepository);
   });
 }

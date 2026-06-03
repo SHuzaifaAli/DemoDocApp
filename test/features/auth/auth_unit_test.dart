@@ -15,13 +15,13 @@ void main() {
     useCase = SignInUseCase(mockRepository);
   });
 
-  final tEmail = 'test@example.com';
-  final tPassword = 'password123';
+  const tEmail = 'test@example.com';
+  const tPassword = 'password123';
   final tUser = UserEntity(id: '1', email: tEmail, role: 'patient');
 
   test('should sign in user using the repository', () async {
     // arrange
-    when(() => mockRepository.signIn(any(), any()))
+    when(() => mockRepository.signInWithEmail(any(), any()))
         .thenAnswer((_) async => tUser);
 
     // act
@@ -29,13 +29,13 @@ void main() {
 
     // assert
     expect(result, tUser);
-    verify(() => mockRepository.signIn(tEmail, tPassword));
+    verify(() => mockRepository.signInWithEmail(tEmail, tPassword)).called(1);
     verifyNoMoreInteractions(mockRepository);
   });
 
   test('should throw an exception when sign in fails', () async {
     // arrange
-    when(() => mockRepository.signIn(any(), any()))
+    when(() => mockRepository.signInWithEmail(any(), any()))
         .thenThrow(Exception('Sign in failed'));
 
     // act

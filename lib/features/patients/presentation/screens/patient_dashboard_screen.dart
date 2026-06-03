@@ -87,7 +87,7 @@ class PatientDashboardScreen extends GetView<PatientController> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.blue.withAlpha((Colors.blue.alpha * 0.1).round()),
+              color: Colors.blue.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: Colors.blue, size: 32),
